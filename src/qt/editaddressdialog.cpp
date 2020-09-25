@@ -98,15 +98,15 @@ bool EditAddressDialog::saveCurrentRow()
             ui->labelEdit->text(),
             ui->addressEdit->text(),
             type);
-    break;
-case EditReceivingAddress:
-case EditSendingAddress:
-    if (mapper->submit()) {
-        address = ui->addressEdit->text();
+        break;
+    case EditReceivingAddress:
+    case EditSendingAddress:
+        if (mapper->submit()) {
+            address = ui->addressEdit->text();
+        }
+        break;
     }
-    break;
-}
-return !address.isEmpty();
+    return !address.isEmpty();
 }
 
 void EditAddressDialog::accept()
