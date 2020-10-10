@@ -313,17 +313,17 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0xa0afbded94d4be233e191525dc2d467af5c7eab3143c852c3cd549831022aad6"); //343833
 
-		pchMessageStart[0] = 0xa2;
+		pchMessageStart[0] = 0xa3;
 		pchMessageStart[1] = 0xa1;
 		pchMessageStart[2] = 0xa0;
-		pchMessageStart[3] = 0xf2;
+		pchMessageStart[3] = 0xf1;
         nDefaultPort = 26550;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1546281565, 1249377, 0x1e0fffff, 1, 0 * COIN);
+        genesis = CreateGenesisBlock(1602028800, 461649, 0x1e0fffff, 1, 0 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0000045eea7d9a4337a90e48d6269cc97b01874deac2aaf5a3e89c543329ab03"));
-        assert(genesis.hashMerkleRoot == uint256S("0xcc3337810d74da69570c3f2778cb2bc7ad78d51d8791b13a6f8d9ee9e8457727"));
+        assert(consensus.hashGenesisBlock == uint256S("0x99484407804ac533c450eb0b00528f2df3e41670a9aee7661349ea7518b82e52"));
+        assert(genesis.hashMerkleRoot == uint256S("0x556799b6a374efa4eb0b579cfaedd87c2834f397bf70802d724cbc7a8c1c4784"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -349,18 +349,18 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-            	{  1000000, uint256S("d6ee31197c5d271cf4cd16f15c6ae35ed2e6e545ba78407c559f6c746143eb9c")}
+            //	{  1000000, uint256S("d6ee31197c5d271cf4cd16f15c6ae35ed2e6e545ba78407c559f6c746143eb9c")}
             }
         };
 
         chainTxData = ChainTxData{
             // Data as of block a0afbded94d4be233e191525dc2d467af5c7eab3143c852c3cd549831022aad6 (height 343833)
-            1516406749,
+            1597854998,
             794057,
             0.01
         };
 
-        mapStakeModifierCheckpoints.insert(std::pair<int, unsigned int>(0, 0xe00670bu));
+        mapStakeModifierCheckpoints.insert(std::pair<int, unsigned int>(0, 0xc94f34e1u));
     }
 };
 
