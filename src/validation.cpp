@@ -3333,6 +3333,7 @@ static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state,
     return true;
 }
 
+static int GetWitnessCommitmentIndex(const CBlock& block);
 bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW, bool fCheckMerkleRoot)
 {
     // These are checks that are independent of context.
@@ -3403,10 +3404,20 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
     if (block.IsProofOfStake())
     {
         // Coinbase output should be empty if proof-of-stake block
-    	// TODO: DeepOnion: segwit creates more outputs for coinbase, this needs
-    	// TODO: DeepOnion: handling here after the segwit softfork
-		if (block.vtx[0]->vout.size() != 1 || !block.vtx[0]->vout[0].IsEmpty())
-			return state.DoS(100, false, REJECT_INVALID, "pos-blk-wrong", false, "coinbase output not empty for pos block");
+		int commitpos = GetWitnessCommitmentIndex(block);
+        if (commitpos >= 0) {
+            if (block.vtx[0]->vout.size() != 2)
+                return state.DoS(100, error("CheckBlock() : coinbase output has wrong size for proof-of-stake block"));
+            if (!block.vtx[0]->vout[1].scriptPubKey.IsUnspendable())
+                return state.DoS(100, error("CheckBlock() : coinbase must be unspendable for proof-of-stake block"));
+        }
+        else {
+            if (block.vtx[0]->vout.size() != 1)
+                return state.DoS(100, error("CheckBlock() : coinbase output has wrong size for proof-of-stake block"));
+        }
+        // Coinbase output should be empty if proof-of-stake block
+        if (!block.vtx[0]->vout[0].IsEmpty())
+            return state.DoS(100, error("CheckBlock() : coinbase output not empty for proof-of-stake block"));
 
         // Second transaction must be coinstake, the rest must not be
         if (block.vtx.empty() || !block.vtx[1]->IsCoinStake())
